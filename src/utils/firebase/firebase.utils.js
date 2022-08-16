@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, getAuth, signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, getAuth, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -33,8 +33,6 @@ export const db = getFirestore();
 export const createUserDocumentFromAuth = async (userAuth, additionalData) => {
   const userDocRef = doc(db, "users", userAuth.uid);
 
-  console.log(userDocRef);
-
   const userSnapshot = await getDoc(userDocRef);
   
   if (!userSnapshot.exists()) {
@@ -54,6 +52,23 @@ export const createUserDocumentFromAuth = async (userAuth, additionalData) => {
   }
 
   return userDocRef;
+}
+
+export const customSignIn = async (email, password) => {
+  if (!email || !password) return;
+
+  try {
+    const userCreds = await signInWithEmailAndPassword(auth, email, password);
+    return(userCreds.user);
+  } catch (error) {
+    if (error.code === 'auth/wrong-password') {
+      alert('Incorrect password!');
+    } else if(error.code === 'auth/user-not-found') {
+      alert('Incorrect email!');
+    } else {
+      alert('Something went wrong!');
+    }
+  }
 }
 
 export const createUser = async ({email, password}) => {
