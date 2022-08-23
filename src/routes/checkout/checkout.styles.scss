@@ -1,0 +1,21 @@
+.checkout-table {
+    width: 800px;
+    margin: 30px auto;
+    &__titles {
+        display: flex;
+        width: 100%;
+        span {
+            width: 23%;
+
+            &:last-child {
+                width: 8%;
+            }
+        }
+    }
+
+    &__total {
+        h2 {
+            text-align: right;
+        }
+    }
+}
