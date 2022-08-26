@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import ProductCard from "../../components/product-card/product-card.component";
 import { CategoriesContext } from "../../context/categories.context";
+
 import './shop.styles.scss'
+import CategoryPreview from "../../components/category-preview/category-preview.component";
 
 const Shop = () => {
   const { categoriesMap } = useContext(CategoriesContext);
@@ -10,14 +12,7 @@ const Shop = () => {
     <>
       {
         Object.keys(categoriesMap).map(title => (
-          <div key={title}>
-            <h2>{title}</h2>
-            <div className="products-container">
-                {categoriesMap[title].map(product => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
-          </div>
+          <CategoryPreview title={title} products={categoriesMap[title]} />
         ))
       }
       
