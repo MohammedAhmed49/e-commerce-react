@@ -12,7 +12,7 @@ const Shop = () => {
     <>
       {
         Object.keys(categoriesMap).map(title => (
-          <CategoryPreview title={title} products={categoriesMap[title]} />
+          <CategoryPreview key={title} title={title} products={categoriesMap[title]} />
         ))
       }
       
