@@ -5,11 +5,11 @@ import ProductCard from "../../components/product-card/product-card.component";
 import './shop.styles.scss'
 import CategoryPreview from "../../components/category-preview/category-preview.component";
 import { useSelector } from "react-redux";
-import { selectCategoriesMap } from "../../store/categories/categories.selectors";
+import { selectCategories } from "../../store/categories/categories.selectors";
 
 const Shop = () => {
   
-  const categoriesMap = useSelector(selectCategoriesMap);
+  const categoriesMap = useSelector(selectCategories);
 
   return (
     <>
