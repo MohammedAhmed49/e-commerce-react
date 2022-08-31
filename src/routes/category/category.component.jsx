@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import ProductCard from "../../components/product-card/product-card.component";
-import { selectCategories } from "../../store/categories/categories.selectors";
+import { selectCategoriesMap } from "../../store/categories/categories.selectors";
 
 const Category = () => {
     const {cateName} = useParams();
-    const categoriesMap = useSelector(selectCategories);
+    const categoriesMap = useSelector(selectCategoriesMap);
     
     return (
         <div>
