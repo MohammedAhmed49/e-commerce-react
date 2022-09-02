@@ -1,23 +1,23 @@
 import { applyMiddleware, compose, createStore } from "redux";
 import logger from "redux-logger";
 import { rootReducer } from "./root-reducer";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-// const loggerMW = (store) => (next) => (action) => {
-//     if (!action.type) {
-//         return next(action);
-//     }
+const middlewares = [process.env.NODE_ENV === 'development' && logger].filter(Boolean);
 
-//     console.log('Type: ', action.type);
-//     console.log('Payload: ', action.payload);
-//     console.log('Current state: ', store.getState());
+const persistConfig = {
+    key: 'root',
+    storage,
+    blacklist: ['user']
+};
 
-//     next(action);
+const persistReducter = persistReducer(persistConfig, rootReducer);
 
-//     console.log('Next state: ', store.getState());
-// }
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const middlewares = [logger];
+const composeEnhancers = composeEnhancer(applyMiddleware(...middlewares));
 
-const composeEnhancers = compose(applyMiddleware(...middlewares));
+export const store = createStore(persistReducter, undefined, composeEnhancers);
 
-export const store = createStore(rootReducer, undefined, composeEnhancers);
+export const persistore = persistStore(store);
