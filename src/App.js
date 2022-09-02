@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { createUserDocumentFromAuth, getCategoriesAndDocuments, onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./store/user/user.actions";
-import { setCategories } from "./store/categories/categories.actions";
+import { fetchCategoriesAsync, setCategories } from "./store/categories/categories.actions";
 
 
 const App = () => {
@@ -31,11 +31,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const getData = async () => {
-        const categories = await getCategoriesAndDocuments();
-        dispatch(setCategories(categories));
-    }
-    getData();
+      dispatch(fetchCategoriesAsync());
   }, []);
 
   return (
