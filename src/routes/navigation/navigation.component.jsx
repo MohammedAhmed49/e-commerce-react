@@ -3,19 +3,21 @@ import { ReactComponent as Logo } from "../../assets/crown.svg";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import { customSignOut } from "../../utils/firebase/firebase.utils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./navigation.styles.scss";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectCartOpened } from "../../store/cart/cart.selector";
+import { signOutStart } from "../../store/user/user.actions";
 
 const Navigation = () => {
   const cartOpened = useSelector(selectCartOpened)
 
   const currentUser = useSelector(selectCurrentUser);
 
+  const dispatch = useDispatch();
   const signOutHandler = async () => {
-    await customSignOut();
+    dispatch(signOutStart());
   }
 
   return (

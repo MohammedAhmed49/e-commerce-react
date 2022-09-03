@@ -9,10 +9,9 @@ import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout.component";
 import Category from "./routes/category/category.component";
 import { useEffect } from "react";
-import { createUserDocumentFromAuth, onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
 import { useDispatch } from "react-redux";
-import { setCurrentUser } from "./store/user/user.actions";
 import { fetchCategoriesStart } from "./store/categories/categories.actions";
+import { checkUserSession } from "./store/user/user.actions";
 
 
 const App = () => {
@@ -20,15 +19,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      const unsubscribe = onAuthStateChangedListener((user) => {
-          if (user) {
-              createUserDocumentFromAuth(user);
-          }
-          dispatch(setCurrentUser(user));
-      });
-
-      return unsubscribe;
-  }, []);
+    dispatch(checkUserSession());
+}, []);
 
   useEffect(() => {
       dispatch(fetchCategoriesStart());

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { signUpStart } from "../../store/user/user.actions";
 import { createUser, createUserDocumentFromAuth } from "../../utils/firebase/firebase.utils";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
@@ -15,6 +17,8 @@ const SignUpForm = () => {
     const [formValues, setFormValues] = useState(defaultValues);
     const {displayName, email, password, confirmPassword} = formValues;
 
+    const dispatch = useDispatch();
+
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -27,9 +31,7 @@ const SignUpForm = () => {
             alert('Passwords are not identical!');
         } else {
             try {
-                const res = await createUser({email, password});
-        
-                const userDocRef = await createUserDocumentFromAuth({email: email, displayName: displayName, uid: res.user.uid});
+                dispatch(signUpStart(email, password, displayName));
         
                 setFormValues(defaultValues);
             } catch(error) {
@@ -50,7 +52,7 @@ const SignUpForm = () => {
                 
                 <FormInput label="Password" type="password" required name="password" value={password} onChange={(e) => handleChange(e)} />
 
-                <FormInput label="Confirm Password"required name="confirmPassword" value={confirmPassword} onChange={(e) => handleChange(e)} />
+                <FormInput label="Confirm Password" type="password" required name="confirmPassword" value={confirmPassword} onChange={(e) => handleChange(e)} />
 
                 <Button type="submit">Sign up</Button>
             </form>
